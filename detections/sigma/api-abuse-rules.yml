@@ -1,0 +1,62 @@
+title: API Brute Force Against Authentication Endpoint
+id: 9b8c6b8d-7c89-4b3e-bab1-d34d4f5ef001
+status: experimental
+description: Detects repeated failed authentication attempts from same source IP in a short window.
+author: Tom Portfolio Lab
+date: 2026-02-22
+logsource:
+  product: api-gateway
+  service: auth
+  category: web
+
+detection:
+  selection:
+    http.path: "/auth/login"
+    http.method: "POST"
+    http.status_code:
+      - 401
+      - 403
+  condition: selection | count(http.status_code) by src.ip > 20 within 5m
+
+falsepositives:
+  - User password manager retries
+  - Internal penetration test window
+level: high
+
+tags:
+  - attack.credential_access
+  - attack.t1110
+---
+title: Possible BOLA Enumeration Pattern
+id: e3af7f24-241d-4d56-9ac6-f6c7b94c3002
+status: experimental
+description: Detects one authenticated user requesting many distinct object IDs with high deny ratio.
+author: Tom Portfolio Lab
+date: 2026-02-22
+logsource:
+  product: application
+  service: api
+  category: web
+
+detection:
+  selection:
+    http.method:
+      - GET
+      - PUT
+      - DELETE
+    http.path|contains: "/api/v1/objects/"
+  deny_status:
+    http.status_code:
+      - 401
+      - 403
+      - 404
+  condition: selection and deny_status | count(http.path) by user.id > 30 within 10m
+
+falsepositives:
+  - QA load or integration testing
+  - Bulk migration jobs (if not allowlisted)
+level: medium
+
+tags:
+  - attack.discovery
+  - attack.t1087
