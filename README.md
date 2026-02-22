@@ -1,4 +1,4 @@
-# Project 1: API Security Testing & Hardening Lab
+# Project : API Security Testing & Hardening Lab
 
 A practical cybersecurity engineering project that simulates common API security weaknesses and then hardens them with measurable controls.
 
