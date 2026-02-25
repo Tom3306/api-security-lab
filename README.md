@@ -1,4 +1,4 @@
-# Project : API Security Testing & Hardening Lab
+# API Security Testing & Hardening Lab
 
 A practical cybersecurity engineering project that simulates common API security weaknesses and then hardens them with measurable controls.
 
@@ -45,7 +45,7 @@ flowchart TD
 
 ## Project Layout
 ```text
-project-01-api-security-lab/
+api-security-lab/
 ├── app/
 │   ├── __init__.py
 │   └── main.py
@@ -78,7 +78,7 @@ project-01-api-security-lab/
 
 ### 1) Setup environment
 ```bash
-cd project-01-api-security-lab
+cd api-security-lab
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
